@@ -1,0 +1,27 @@
+version: "3.5"
+
+services:
+
+  flygo-backend:
+    image: flygo-backend
+    container_name: flygo-backend
+    volumes:
+      - /www/flygo-backend/shared:/www/flygo-backend/shared
+      - /www/flygo-backend/shared/.env:/home/app/.env
+    expose:
+      - 80
+    env_file:
+      - ../.env
+    links:
+      - redis:redis
+    networks:
+      - nginx_proxy_network
+
+  redis:
+    image: redis
+    container_name: flygo-backend_redis
+
+networks:
+  nginx_proxy_network:
+    external:
+      name: nginx_proxy_network
